@@ -183,7 +183,7 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
         await driver.sleep(5000)
 
         onProgress('Setting "not made for kids" (the only supported options right now)..')
-        await (await findElement('[name=NOT_MADE_FOR_KIDS]')).click()
+        await (await findElement('[name=VIDEO_MADE_FOR_KIDS_NOT_MFK]')).click()
 
         await driver.sleep(1000)
 
@@ -191,14 +191,18 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
 
         onProgress(`Setting visibility option to ${videoObj.visibility}..`)
 
+        await driver.sleep(1000)
+
         // Go to visibility tab
         await (await findElement('button[test-id=REVIEW]')).click()
+
+        await driver.sleep(2000)
 
         // Wait for it to load
         await driver.wait(until.elementsLocated(By.css("#privacy-radios")), 10000)
 
         // Select proper visibility setting
-        var [hiddenButton, unlistedButton, publicButton] = await findElements("#privacy-radios > paper-radio-button")
+        var [hiddenButton, unlistedButton, publicButton] = await findElements("#privacy-radios > tp-yt-paper-radio-button")
         switch (videoObj.visibility) {
             case 'private':
                 hiddenButton.click()
@@ -226,7 +230,7 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
 
                     // String that indicate uploading: "Uploading 57% ... 2 minutes left", "Uploading..", "Uploading 100% ..."
                     // String that indicate finishing: "Processing HD version, SD complete", "Finished processing", "Upload complete ... Processing will begin shortly"
-                    if (/\D \.\.\. \D/.test(innerHTML) || /^[^\.]+$/.test(innerHTML)) {
+                    if (/\D \.\.\. \D/.test(innerHTML) || /^[^\.]+$/.test(innerHTML) || /^Überprüfungen abgeschlossen/.test(innerHTML)) {
                         clearInterval(successInterval)
 
                         onProgress("Publishing..")
