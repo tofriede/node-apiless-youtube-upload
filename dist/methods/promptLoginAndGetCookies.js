@@ -24,7 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chrome_location_1 = __importDefault(require("chrome-location"));
 const Path = __importStar(require("path"));
-const fs = __importStar(require("fs/promises"));
+const fs_1 = require("fs");
 const os = __importStar(require("os"));
 const child_process_1 = require("child_process");
 const helpers_1 = require("../helpers");
@@ -40,8 +40,8 @@ const isRunning = (pid) => {
     }
 };
 const createTmpDir = async (prefix) => {
-    const path = await fs.mkdtemp(Path.join(os.tmpdir(), prefix));
-    const remove = () => fs.rm(path, { recursive: true, force: true, maxRetries: 3 });
+    const path = await fs_1.promises.mkdtemp(Path.join(os.tmpdir(), prefix));
+    const remove = () => fs_1.promises.rm(path, { recursive: true, force: true, maxRetries: 3 });
     return { path, remove };
 };
 // "Chrome didn't shut down correctly" dialog is caused by their
@@ -49,10 +49,10 @@ const createTmpDir = async (prefix) => {
 // to the end user, so we remove it by editing profile preferences
 const chromePreventCrashDialog = async (profilePath) => {
     const preferencesPath = Path.join(profilePath, 'Default', 'Preferences');
-    const jsonBuf = await fs.readFile(preferencesPath);
+    const jsonBuf = await fs_1.promises.readFile(preferencesPath);
     const json = JSON.parse(jsonBuf.toString('utf-8'));
     json.profile.exit_type = 'Normal';
-    await fs.writeFile(preferencesPath, JSON.stringify(json));
+    await fs_1.promises.writeFile(preferencesPath, JSON.stringify(json));
 };
 const hasNotLoggedIn = async (pid) => {
     // The final destination title after a successful login
@@ -95,12 +95,12 @@ const makeLoggedInChromeProfile = async () => {
     // work). Therefore we do a cleanup of previous runs rather than trying to
     // clean up the current one on exit
     const { base: tmpBase, dir } = Path.parse(tempDir.path);
-    for (const file of await fs.readdir(dir)) {
+    for (const file of await fs_1.promises.readdir(dir)) {
         if (file === tmpBase || !file.startsWith(modulePrefix))
             continue;
         const prevProfilePath = Path.join(dir, file);
         console.log('Removing temp profile from previous run', prevProfilePath);
-        await fs.rm(prevProfilePath, { recursive: true, force: true, maxRetries: 3 });
+        await fs_1.promises.rm(prevProfilePath, { recursive: true, force: true, maxRetries: 3 });
     }
     return runUncontrolledChrome(tempDir.path)
         .then(() => tempDir)

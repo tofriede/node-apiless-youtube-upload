@@ -1,6 +1,6 @@
 import chromeLocation from 'chrome-location'
 import * as Path from 'path'
-import * as fs from 'fs/promises'
+import { promises as fs } from 'fs';
 import * as os from 'os'
 import {spawn} from 'child_process'
 import {pid2title, URL, makeWebDriver, Cookies} from '../helpers'
