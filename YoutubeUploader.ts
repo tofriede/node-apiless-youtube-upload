@@ -27,7 +27,7 @@ export default class YoutubeUploader {
         videoObj: VideoObj,
         headlessMode?: boolean,
         onProgress?: (a: string) => any,
-    ): Promise<void> {
+    ): Promise<string> {
         return uploadVideo(videoObj, this.cookies, headlessMode, onProgress)
     }
 }
