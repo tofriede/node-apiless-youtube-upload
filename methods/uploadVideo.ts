@@ -219,6 +219,9 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
 
         onProgress('Uploading..')
 
+        var videoLinkEL = await findElement(".video-url-fadeable > a");
+        var videoId = (await videoLinkEL.getText()).trim().match(/^https:\/\/youtu\.be\/(.*)/)[1];
+
         // Wait for uploading to finish
         await new Promise((resolve, reject) => {
             // Poll progress updates
@@ -256,7 +259,7 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
             }, 4000)
         })
 
-        return null
+        return videoId;
     } finally {
         if (securityIgnoreInterval) clearInterval(securityIgnoreInterval)
         if (successInterval) clearInterval(successInterval)
