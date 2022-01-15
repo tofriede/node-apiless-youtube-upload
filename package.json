@@ -12,7 +12,20 @@
     "url": "https://github.com/gladiatortoise/node-apiless-youtube-upload.git"
   },
   "keywords": [
-    "youtube", "upload", "video", "unlimited", "apiless", "selenium", "webdriver", "automated", "promise", "async", "electron", "typescript", "linux", "windows"
+    "youtube",
+    "upload",
+    "video",
+    "unlimited",
+    "apiless",
+    "selenium",
+    "webdriver",
+    "automated",
+    "promise",
+    "async",
+    "electron",
+    "typescript",
+    "linux",
+    "windows"
   ],
   "prepare": "tsc",
   "author": "gladiatortoise",
