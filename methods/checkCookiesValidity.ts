@@ -12,7 +12,7 @@ export default async (cookies: Cookies): Promise<boolean> => {
 }
 
 const checker = async (driver: WebDriver, cookies: Cookies): Promise<boolean> => {
-    await driver.get(URL.GOOGLE)
+    await driver.get(URL.YOUTUBE)
 
     for (const cookie of cookies) await driver.manage().addCookie(cookie)
 

@@ -1,9 +1,6 @@
 import {until, By, WebElement} from 'selenium-webdriver'
 import fs from 'fs'
-import {Cookies, makeWebDriver} from '../helpers'
-
-const GOOGLE_URL = `https://google.com`;
-const YOUTUBE_STUDIO_URL = `https://studio.youtube.com`;
+import {Cookies, makeWebDriver, URL} from '../helpers'
 
 export interface VideoObj {
     videoPath: string
@@ -115,8 +112,8 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
     try {
         onProgress('Settings cookies..')
 
-        // Load google page to set up cookies
-        await driver.get(GOOGLE_URL)
+        // Load Youtube page to set up cookies
+        await driver.get(URL.YOUTUBE)
 
         // Add cookies
         for (let cookie of cookies) await driver.manage().addCookie(cookie)
@@ -124,7 +121,7 @@ export default async (videoObj : VideoObj, cookies : Cookies, headlessMode = tru
         onProgress('Opening Youtube Studio..')
 
         // Open Youtube Studio page
-        await driver.get(YOUTUBE_STUDIO_URL);
+        await driver.get(URL.YOUTUBE_STUDIO);
 
         // Wait for stuff to fully load
         await driver.sleep(1000)

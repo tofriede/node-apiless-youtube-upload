@@ -99,7 +99,6 @@ const makeLoggedInChromeProfile = async (): Promise<ITempDirectory> => {
 
 const fetchCookies = async (driver: WebDriver): Promise<Cookies> => {
     // go to google.com to trigger the saved profile to load faster
-    await driver.get(URL.LOADER)
     await driver.sleep(4000)
     await driver.get(URL.GOOGLE)
     // Open youtube studio to test if the login is valid
